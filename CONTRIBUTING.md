@@ -51,7 +51,7 @@ Copy `bin/BEI/` into the game's `mods/` folder (LeviLauncher) to try it.
 
 ### Showcase media
 
-The pictures and videos in the README and on the [LeviMC Mods gallery](https://levimc.org/mods/github.com/LiteLDev/BarelyEnoughItems/?tab=gallery)
+The pictures and videos in the README and on the [LeviMC Mods gallery](https://levimc.org/mods/github.com/MiracleForest/BarelyEnoughItems/?tab=gallery)
 live in [`docs/showcase/`](docs/showcase/) with the manifest `showcase.json`. They are reproducible:
 
 ```powershell

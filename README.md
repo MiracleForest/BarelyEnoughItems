@@ -26,10 +26,10 @@ BEI only runs on your game: it works in single-player and on any server, and the
 
 You need Minecraft Bedrock Edition **1.26.51** for Windows (x64) with LeviLamina **26.51.x**, for example installed through [LeviLauncher](https://github.com/LiteLDev/LeviLauncher).
 
-With [lip](https://github.com/LiteLDev/lip):
+With [lip](https://github.com/LiteLDev/lip) 0.35.0 or later:
 
 ```sh
-lip install github.com/LiteLDev/BarelyEnoughItems#client
+lip install github.com/MiracleForest/BarelyEnoughItems#client
 ```
 
 Or download `bei-client-windows-x64.zip` from the [latest release](https://github.com/MiracleForest/BarelyEnoughItems/releases/latest) and extract it so that the `BEI` folder lands in the game's `mods/` folder.
@@ -89,7 +89,7 @@ Settings and bookmarks are saved in `mods/BEI/config/` (`config.json`, `bookmark
 
 ## More
 
-More screenshots and videos: https://levimc.org/mods/github.com/LiteLDev/BarelyEnoughItems/?tab=gallery
+More screenshots and videos: https://levimc.org/mods/github.com/MiracleForest/BarelyEnoughItems/?tab=gallery
 
 Found a bug or have an idea? [Open an issue](https://github.com/MiracleForest/BarelyEnoughItems/issues/new/choose).
 Building it yourself or contributing? See [CONTRIBUTING.md](CONTRIBUTING.md).
