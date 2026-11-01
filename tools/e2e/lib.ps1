@@ -15,7 +15,7 @@ $script:ModsDir      = Join-Path $script:VersionDir 'mods'
 $script:GameExe      = Join-Path $script:VersionDir 'Minecraft.Windows.exe'
 $script:LockFile     = Join-Path $script:LauncherData 'bei-e2e.lock'
 $script:OutDir       = Join-Path $script:RepoRoot 'tools\e2e\out'
-# LeviHeadlessInput (https://github.com/LiteLDev/LeviHeadlessInput), used by run.ps1 unless
+# LeviHeadlessInput (https://github.com/LiteLDev/BeDD), used by run.ps1 unless
 # -Foreground: its build output (DLL, HeadlessInput.psm1, harness-shim.ps1).
 $script:HeadlessInputDir = if ($env:LEVI_HEADLESS_INPUT_DIR) { $env:LEVI_HEADLESS_INPUT_DIR } else {
     Join-Path $env:USERPROFILE 'Desktop\LeviHeadlessInput\bin\LeviHeadlessInput' }

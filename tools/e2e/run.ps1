@@ -9,7 +9,7 @@
 
   Screenshots land in tools\e2e\out\<Scenario>\. Review them (they are the evidence).
 
-  By default the run is headless: the LeviHeadlessInput mod (https://github.com/LiteLDev/LeviHeadlessInput,
+  By default the run is headless: the LeviHeadlessInput mod (https://github.com/LiteLDev/BeDD,
   see $script:HeadlessInputDir in lib.ps1) is deployed next to BEI and every click and key goes
   through its control pipe, so the game stays in the background and never takes the real mouse,
   keyboard or foreground. -Foreground uses real input (SendInput) instead.
