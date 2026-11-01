@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - The repository moved to [MiracleForest/BarelyEnoughItems](https://github.com/MiracleForest/BarelyEnoughItems). Links point there now.
-- The lip package is now `github.com/MiracleForest/BarelyEnoughItems`, and the mod page moves to [levimc.org/mods/github.com/MiracleForest/BarelyEnoughItems](https://levimc.org/mods/github.com/MiracleForest/BarelyEnoughItems/). Installing by the new path needs lip 0.35.0 or later. `lip update` does not follow the rename on every lip version, so to move an existing install run `lip uninstall github.com/LiteLDev/BarelyEnoughItems#client` and then `lip install github.com/MiracleForest/BarelyEnoughItems#client`; your settings in `mods/BEI/config/` are kept. Older versions stay installable at their old path.
+- The lip package is now `github.com/MiracleForest/BarelyEnoughItems`, and the mod page moves to [levimc.org/mods/github.com/MiracleForest/BarelyEnoughItems](https://levimc.org/mods/github.com/MiracleForest/BarelyEnoughItems/). Installing by the new path needs lip 0.35.0 or later. With lip 0.36.0 or later, `lip update` moves an existing install to the new path automatically. With older lip, run `lip uninstall github.com/LiteLDev/BarelyEnoughItems#client` and then `lip install github.com/MiracleForest/BarelyEnoughItems#client`. Either way your settings in `mods/BEI/config/` are kept. Older versions stay installable at their old path.
 
 ## [0.1.2] - 2026-10-24
 
