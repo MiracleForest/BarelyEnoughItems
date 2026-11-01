@@ -2,7 +2,7 @@
 
 These tests drive the **real game** on this machine:
 - the LeviLauncher instance `1.26.51.01` at `%APPDATA%\levilauncher.exe\versions\1.26.51.01`;
-- **input through [LeviHeadlessInput](https://github.com/LiteLDev/LeviHeadlessInput)** (default: the game stays in the background and never takes your mouse, keyboard or foreground; built in `%USERPROFILE%\Desktop\LeviHeadlessInput\bin\LeviHeadlessInput` or `$env:LEVI_HEADLESS_INPUT_DIR`), or **real input** (`SendInput`) with `-Foreground`;
+- **input through [LeviHeadlessInput](https://github.com/LiteLDev/BeDD)** (default: the game stays in the background and never takes your mouse, keyboard or foreground; built in `%USERPROFILE%\Desktop\LeviHeadlessInput\bin\LeviHeadlessInput` or `$env:LEVI_HEADLESS_INPUT_DIR`), or **real input** (`SendInput`) with `-Foreground`;
 - **window screenshots** (`PrintWindow`).
 
 There is one game instance per machine, so `run.ps1` holds a machine-wide lock (`%APPDATA%\levilauncher.exe\bei-e2e.lock`) for the whole run. Parallel worktrees simply queue.

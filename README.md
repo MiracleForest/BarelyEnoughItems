@@ -2,8 +2,8 @@
 
 <img src="docs/logo.png" alt="" width="128" align="right">
 
-[![Release](https://img.shields.io/github/v/release/LiteLDev/BarelyEnoughItems)](https://github.com/LiteLDev/BarelyEnoughItems/releases)
-[![License](https://img.shields.io/github/license/LiteLDev/BarelyEnoughItems)](COPYING.LESSER)
+[![Release](https://img.shields.io/github/v/release/MiracleForest/BarelyEnoughItems)](https://github.com/MiracleForest/BarelyEnoughItems/releases)
+[![License](https://img.shields.io/github/license/MiracleForest/BarelyEnoughItems)](COPYING.LESSER)
 
 Never alt-tab to a wiki again. BEI puts every item in the game next to your inventory, and shows how to make it and what it is good for — [Just Enough Items (JEI)](https://github.com/mezz/JustEnoughItems) from Java Edition, now on Minecraft Bedrock for Windows.
 
@@ -32,7 +32,7 @@ With [lip](https://github.com/LiteLDev/lip):
 lip install github.com/LiteLDev/BarelyEnoughItems#client
 ```
 
-Or download `bei-client-windows-x64.zip` from the [latest release](https://github.com/LiteLDev/BarelyEnoughItems/releases/latest) and extract it so that the `BEI` folder lands in the game's `mods/` folder.
+Or download `bei-client-windows-x64.zip` from the [latest release](https://github.com/MiracleForest/BarelyEnoughItems/releases/latest) and extract it so that the `BEI` folder lands in the game's `mods/` folder.
 
 ## How to use
 
@@ -91,7 +91,7 @@ Settings and bookmarks are saved in `mods/BEI/config/` (`config.json`, `bookmark
 
 More screenshots and videos: https://levimc.org/mods/github.com/LiteLDev/BarelyEnoughItems/?tab=gallery
 
-Found a bug or have an idea? [Open an issue](https://github.com/LiteLDev/BarelyEnoughItems/issues/new/choose).
+Found a bug or have an idea? [Open an issue](https://github.com/MiracleForest/BarelyEnoughItems/issues/new/choose).
 Building it yourself or contributing? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
