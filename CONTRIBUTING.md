@@ -35,13 +35,46 @@ Commit messages use the imperative mood ("Add anvil category", not "Added …").
 
 You need Windows x64, [xmake](https://xmake.io), Visual Studio Build Tools with MSVC 14.4x or newer, and LLVM (`clang-cl`, on `PATH`).
 
+BEI is compiled against one LeviLamina line at a time, chosen with `--levilamina`. Each supported line has a lip variant of the same name and a lock file in `locks/`, which pins the packages of that line; copy it to `xmake-requires.lock` (which is generated, and not tracked) before configuring:
+
+| Line | Variant | Lock file | Configure with |
+| --- | --- | --- | --- |
+| LeviLamina 26.60.x (Minecraft 1.26.60) | `26_60` | `locks/26_60.lock` | `--levilamina=26.60.5` (the default) |
+| LeviLamina 26.51.x (Minecraft 1.26.51) | `26_51` | `locks/26_51.lock` | `--levilamina=26.51.7` |
+
 ```powershell
 git config --global core.longpaths true
-xmake f -a x64 -m release -p windows --target_type=client -y   # add --vs=2026 for Visual Studio 18
-xmake -y                                                         # produces bin/BEI/
+Copy-Item locks/26_60.lock xmake-requires.lock
+xmake f -a x64 -m release -p windows --target_type=client --levilamina=26.60.5 -y  # add --vs=2026 for Visual Studio 18
+xmake -y                                                                            # produces bin/BEI/
 ```
 
 Copy `bin/BEI/` into the game's `mods/` folder (LeviLauncher) to try it.
+
+The build defines `BEI_LL_VERSION` as the line it is building for (`2651`, `2660`). Where a LeviLamina API differs between lines, guard both paths with it rather than dropping the older one, and keep the guard as small as possible:
+
+```cpp
+#if BEI_LL_VERSION >= 2660
+    // 26.60 and later
+#else
+    // 26.51
+#endif
+```
+
+To add a line, add its row above: a `locks/<variant>.lock` (configure once with the new `--levilamina` and copy the generated `xmake-requires.lock`), a variant in `lip.toml`, and a matrix entry in `.github/workflows/build.yml` and `.github/workflows/release.yml`.
+
+### Releasing
+
+The version is written in three places and the release workflow refuses a tag that disagrees with
+any of them:
+
+1. `lip.toml` — `version`;
+2. `manifest.json` — `version`, what the mod reports in game;
+3. `CHANGELOG.md` — a `## [<version>] - <date>` section, which becomes the release notes.
+
+Then tag the commit `v<version>` and push the tag. The workflow builds every line, runs the unit
+tests, packs one ZIP per line and creates the release; a version with a `-` in it, such as
+`0.2.0-beta.1`, is published as a prerelease.
 
 ### Tests
 

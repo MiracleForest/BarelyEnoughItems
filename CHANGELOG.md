@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for **Minecraft 1.26.60** with LeviLamina 26.60.x, which is now the version BEI is installed as by default. Minecraft 1.26.51 with LeviLamina 26.51.x is still supported and gets its own build of every release, so nothing is lost by updating.
+  - BEI is compiled against one LeviLamina line at a time, so each release now ships one download per line: `bei-client-win-x64-ll26.60.zip` and `bei-client-win-x64-ll26.51.zip`.
+
+### Changed
+
+- The package is now described by `lip.toml` of format 4 instead of `tooth.json`, so installing it needs [lip](https://github.com/LiteLDev/lip) **0.40.0** or later, or a LeviLauncher that reads it. Older releases stay installable with older lip.
+- Each supported LeviLamina line is a variant named after it: `26_60` for 26.60.x and `26_51` for 26.51.x. The default variant, and `client` — the variant earlier releases were installed as — are the newest line, so `lip update` and LeviLauncher keep working and simply move you to 26.60.
+  - To stay on Minecraft 1.26.51, install `github.com/MiracleForest/BarelyEnoughItems#26_51`, or pick the `26_51` variant on the mod's page in LeviLauncher.
+  - Your settings and bookmarks in `mods/BEI/config/` are kept either way.
+- The downloads are now lip mod archives: the files sit at the root of the ZIP instead of inside a `BEI/` folder. Extract one into `mods/BEI/`, not into `mods/`.
+
+### Fixed
+
+- On Minecraft 1.26.60, fuels that the game describes with an item component (coal and charcoal among them) are read from that component, because the call BEI used for them on 1.26.51 is gone from 1.26.60.
+- Container slots are now found by asking the game what each of the open screen's collections is, instead of through a lookup table that 1.26.60 no longer offers. Recipe transfer, the cursor stack and creative delete work the same on both versions.
+
 ## [0.1.3] - 2026-11-01
 
 ### Changed

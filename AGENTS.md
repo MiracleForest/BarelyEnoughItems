@@ -1,8 +1,15 @@
 # AGENTS.md
 
 BEI (Barely Enough Items) is a JEI-style item list and recipe viewer for Minecraft Bedrock,
-built as a **client** mod on LeviLamina. It targets MC **1.26.51.01** and LeviLamina
-**26.51.7**, and is built with xmake and clang-cl on Windows x64.
+built as a **client** mod on LeviLamina, with xmake and clang-cl on Windows x64.
+
+One source tree supports several LeviLamina lines, one build each. A line is a lip variant of the
+same name, and `--levilamina` picks the one being built:
+
+| Line | Minecraft | Variant | Built against | Lock file |
+| --- | --- | --- | --- | --- |
+| 26.60.x | 1.26.60 | `26_60`, and the default | `--levilamina=26.60.5` (the default) | `locks/26_60.lock` |
+| 26.51.x | 1.26.51 | `26_51` | `--levilamina=26.51.7` | `locks/26_51.lock` |
 
 ## Layout and ownership
 
@@ -35,20 +42,42 @@ New tools are on the persistent PATH but not in already-open shells. In a fresh 
 `$env:Path=[Environment]::GetEnvironmentVariable('Path','Machine')+';'+[Environment]::GetEnvironmentVariable('Path','User')`
 
 ```powershell
-xmake f -a x64 -m release -p windows --target_type=client -y   # once (config is sticky)
-xmake -y                                                         # builds bin/BEI/{BEI.dll,manifest.json,lang/}
-xmake build -y bei-tests; xmake run bei-tests                    # unit tests (src/core only)
-pwsh tools/e2e/run.ps1 -Scenario smoke                           # real game, see tools/e2e/README.md
+Copy-Item locks/26_60.lock xmake-requires.lock                # the line you are building
+xmake f -a x64 -m release -p windows --target_type=client --levilamina=26.60.5 -y  # config is sticky
+xmake -y                                                      # builds bin/BEI/{BEI.dll,manifest.json,lang/}
+xmake build -y bei-tests; xmake run bei-tests                 # unit tests (src/core only)
+pwsh tools/e2e/run.ps1 -Scenario smoke                        # real game, see tools/e2e/README.md
 ```
+
+`xmake-requires.lock` is generated, not tracked: copy the lock of the line you are building over it
+before configuring. Switching lines means another `Copy-Item` and another `xmake f`.
 
 `git config --global core.longpaths true` is required, because the LeviLamina package has very long header paths.
 
 ## Bedrock / LeviLamina rules (learned the hard way)
 
 **Where the SDK headers are**
-- `%LOCALAPPDATA%\.xmake\packages\l\levilamina\26.51.7\<hash>\include\{ll,mc}`.
-- The same source is in the lip cache: `%LOCALAPPDATA%\lip\cache\git+https...LeviLamina.git#v26.51.7\{src,src-client}`.
-- Check these before guessing any name or signature.
+- `%LOCALAPPDATA%\.xmake\packages\l\levilamina\<version>\<hash>\include\{ll,mc}`, one tree per
+  version you have built against.
+- The same source is in the lip cache: `%LOCALAPPDATA%\lip\cache\git+https...LeviLamina.git#v<version>\{src,src-client}`.
+- Check these before guessing any name or signature, and diff the trees of two lines before
+  assuming an API is the same on both.
+
+**Supporting more than one line**
+- The build defines `BEI_LL_VERSION` as the line it is building for: `2651`, `2660`. Guard a
+  difference with it, keep the guard as small as possible, and never drop the older path:
+  ```cpp
+  #if BEI_LL_VERSION >= 2660
+  ...
+  #else
+  ...
+  #endif
+  ```
+- Prefer one unguarded path when the same API works on both lines; that is usually possible, and a
+  guard is the last resort.
+- A warning `'X' is deprecated: This API is not available` means `X` became `MCNAPI` on that line.
+  It still links, but it is not there to call: find another way instead of silencing the warning.
+- Every line must build warning-free before a release.
 
 **What you may call**
 - `MCAPI`, `MCFOLD` and `MCTAPI` functions and unmarked `virtual` functions are callable.

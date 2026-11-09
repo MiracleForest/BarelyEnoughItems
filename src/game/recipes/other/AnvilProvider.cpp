@@ -115,7 +115,7 @@ public:
         forEachRegisteredItem(level, [&](Item const& item) {
             auto key = keyOf(item, 0);
             if (key.empty()) return;
-            auto stack = std::make_unique<ItemInstance>();
+            auto stack = std::make_unique<ItemInstance>(emptyItemInstance());
             stack->reinit(item, 1, 0);
             if (stack->isNull()) return;
             bool const damageable = item.isDamageable() && item.getMaxDamage() > 0;

@@ -13,6 +13,10 @@
 #include "mc/world/item/registry/ItemRegistryRef.h"
 #include "mc/world/level/Level.h"
 #include "mc/world/level/block/actor/FurnaceBlockActor.h"
+#if BEI_LL_VERSION >= 2660
+#include "mc/deps/core/string/HashedString.h"
+#include "mc/world/item/components/FuelItemComponent.h"
+#endif
 
 #include <algorithm>
 #include <unordered_set>
@@ -22,12 +26,30 @@ namespace bei::game::other {
 namespace {
 /// Cook time of a regular furnace in ticks; burn durations are reported relative to it.
 constexpr float kFurnaceCookTicks = 200.0f;
+
+#if BEI_LL_VERSION >= 2660
+/// Ticks per second, to turn the "duration" of the fuel item component into ticks.
+constexpr float kTicksPerSecond = 20.0f;
+
+/// Burn time of a data-driven fuel, read from the item's "minecraft:fuel" component.
+///
+/// 26.51 asked the game with FurnaceBlockActor::getBurnDuration(ItemStackBase const&, float),
+/// which 26.60 no longer exports; the component holds the same number.
+float componentBurnTicks(Item const& item) {
+    static HashedString const id{"minecraft:fuel"};
+    auto const*               component = item.getComponent(id);
+    if (component == nullptr) return 0.0f;
+    return static_cast<FuelItemComponent const*>(component)->mFuelDuration * kTicksPerSecond;
+}
+#endif
 } // namespace
 
 bool isHandledOrIgnoredTag(std::string_view tag) noexcept {
     return std::find(kHandledTags.begin(), kHandledTags.end(), tag) != kHandledTags.end()
         || std::find(kIgnoredTags.begin(), kIgnoredTags.end(), tag) != kIgnoredTags.end();
 }
+
+ItemInstance emptyItemInstance() { return ItemInstance{ItemInstance::EMPTY_ITEM()}; }
 
 core::ItemKey keyOf(Item const& item, int aux) {
     auto const& name = item.mFullName->getString();
@@ -132,12 +154,16 @@ std::vector<FuelInfo> collectFuels(Level& level) {
     std::unordered_set<core::ItemKey, core::ItemKeyHash> seen;
     forEachRegisteredItem(level, [&](Item const& item) {
         // getItemBurnDuration only knows the hardcoded fuel table; data-driven fuels (the "fuel"
-        // item component, e.g. coal and charcoal in 1.26) are only seen through a stack.
+        // item component, e.g. coal and charcoal in 1.26) have to be found another way.
         float ticks = FurnaceBlockActor::getItemBurnDuration(item, kFurnaceCookTicks);
         if (!(ticks > 0.0f)) {
-            ItemInstance stack;
+#if BEI_LL_VERSION >= 2660
+            ticks = componentBurnTicks(item);
+#else
+            ItemInstance stack = emptyItemInstance();
             stack.reinit(item, 1, 0);
             if (!stack.isNull()) ticks = FurnaceBlockActor::getBurnDuration(stack, kFurnaceCookTicks);
+#endif
         }
         if (!(ticks > 0.0f)) return;
         auto key = keyOf(item, 0);

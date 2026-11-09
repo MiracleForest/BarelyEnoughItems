@@ -47,7 +47,7 @@ public:
         forEachRegisteredItem(level, [&](Item const& item) {
             auto key = keyOf(item, 0);
             if (key.empty()) return;
-            ItemInstance stack;
+            ItemInstance stack = emptyItemInstance();
             stack.reinit(item, 1, 0);
             if (stack.isNull()) return;
             int const chance = ComposterBlock::getFillChance(stack);

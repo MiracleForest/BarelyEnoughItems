@@ -69,7 +69,8 @@ bool owns(UIScene const* scene) { return gScene.scene && gScene.scene.get() == s
 ISceneStack* sceneStack() {
     auto* client = game::currentClient();
     if (!client) return nullptr;
-    return client->getSceneFactory().getCurrentSceneStack().get();
+    // ClientInstance has the accessor on every supported line; SceneFactory lost it in 26.60.
+    return client->getCurrentSceneStack().get();
 }
 
 /// True if `target` is anywhere in the stack. The meaning of the callback's return value
@@ -126,7 +127,7 @@ void pushScene() {
     gScene.retired  = std::move(retired);
     gScene.scene    = std::move(scene);
     gScene.openedAt = Clock::now();
-    client->getSceneFactory().getCurrentSceneStack()->pushScreen(gScene.scene, false);
+    client->getCurrentSceneStack()->pushScreen(gScene.scene, false);
 }
 
 /// Per-frame bookkeeping: key ownership, deferred pops/reopens and the watchdog.

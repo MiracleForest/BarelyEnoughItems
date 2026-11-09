@@ -18,6 +18,8 @@
 #include "mc/server/commands/CommandOriginData.h"
 #include "mc/server/commands/CommandPermissionLevel.h"
 #include "mc/world/containers/ContainerEnumName.h"
+#include "mc/world/containers/ContainerFactory.h"
+#include "mc/world/containers/FullContainerName.h"
 #include "mc/world/containers/SlotData.h"
 #include "mc/world/containers/managers/controllers/ContainerManagerController.h"
 #include "mc/world/item/ItemStack.h"
@@ -132,12 +134,14 @@ LL_TYPE_INSTANCE_HOOK(
 
 // --- Container access ------------------------------------------------------------------------
 
-std::string const& collectionName(ContainerEnumName name) {
-    // Linear scan: map.find() would hash with our std::hash, which does not match the game's
-    // bucket layout (find() misses even though the entry exists).
+/// The UI collection name of `name` among the collections `mgr` has, or "" when it has none.
+///
+/// The game's own ContainerEnumName-to-name map is not callable on every LeviLamina line, so walk
+/// the manager's containers and ask the factory what each of their names stands for.
+std::string const& collectionName(ContainerManagerController& mgr, ContainerEnumName name) {
     static std::string const empty;
-    for (auto const& [key, value] : ContainerCollectionNameMap()) {
-        if (key == name) return value;
+    for (auto const& entry : mgr.mContainers.get()) {
+        if (ContainerFactory::getContainerEnumName(entry.first).mName == name) return entry.first;
     }
     return empty;
 }
@@ -170,19 +174,21 @@ struct Slot {
 /// Collections that hold the player's own items in the crafting screen.
 std::vector<std::string> inventoryCollections(ContainerManagerController& mgr) {
     std::vector<std::string> names;
-    auto const&              combined = collectionName(ContainerEnumName::CombinedHotbarAndInventoryContainer);
+    auto const&              combined = collectionName(mgr, ContainerEnumName::CombinedHotbarAndInventoryContainer);
     if (!combined.empty() && mgr.hasContainerController(combined)) {
         names.push_back(combined);
         return names;
     }
     for (auto e : {ContainerEnumName::HotbarContainer, ContainerEnumName::InventoryContainer}) {
-        auto const& n = collectionName(e);
+        auto const& n = collectionName(mgr, e);
         if (!n.empty() && mgr.hasContainerController(n)) names.push_back(n);
     }
     return names;
 }
 
-std::string const& gridCollection() { return collectionName(ContainerEnumName::CraftingInputContainer); }
+std::string const& gridCollection(ContainerManagerController& mgr) {
+    return collectionName(mgr, ContainerEnumName::CraftingInputContainer);
+}
 
 void collectSlots(ContainerManagerController& mgr, std::string const& collection, std::vector<Slot>& out) {
     if (collection.empty() || !mgr.hasContainerController(collection)) return;
@@ -203,7 +209,7 @@ std::vector<Slot> inventorySlots(ContainerManagerController& mgr) {
 
 std::vector<Slot> gridSlots(ContainerManagerController& mgr) {
     std::vector<Slot> slots;
-    collectSlots(mgr, gridCollection(), slots);
+    collectSlots(mgr, gridCollection(mgr), slots);
     return slots;
 }
 
@@ -214,7 +220,7 @@ std::vector<PoolEntry> toPool(std::vector<Slot> const& slots) {
 }
 
 int gridSizeOf(ContainerManagerController& mgr) {
-    auto const& grid = gridCollection();
+    auto const& grid = gridCollection(mgr);
     if (grid.empty() || !mgr.hasContainerController(grid)) return 0;
     int const cells = mgr.getContainerSize(grid);
     int const side  = static_cast<int>(std::lround(std::sqrt(static_cast<double>(std::max(cells, 0)))));
@@ -226,8 +232,9 @@ void dumpCollections() {
     auto* mgr = manager();
     log().info("Actions[dev]: crafting screen active, manager={}", static_cast<void*>(mgr));
     if (!mgr) return;
-    for (auto const& [e, name] : ContainerCollectionNameMap()) {
-        if (!mgr->hasContainerController(name)) continue;
+    for (auto const& entry : mgr->mContainers.get()) {
+        auto const& name = entry.first;
+        auto const  e    = ContainerFactory::getContainerEnumName(name).mName;
         log().info("Actions[dev]:   {} ({}) size={}", name, static_cast<int>(e), mgr->getContainerSize(name));
     }
     auto const& cursor = ContainerScreenController::mCursorSlotData();
@@ -256,7 +263,7 @@ constexpr ContainerEnumName CREATIVE_LISTS[]{
 /// screens (chest, furnace, ...) the server does not accept destroying the cursor stack.
 bool hasCreativeList(ContainerManagerController& mgr) {
     return std::any_of(std::begin(CREATIVE_LISTS), std::end(CREATIVE_LISTS), [&](ContainerEnumName e) {
-        auto const& name = collectionName(e);
+        auto const& name = collectionName(mgr, e);
         return !name.empty() && mgr.hasContainerController(name);
     });
 }
@@ -435,7 +442,7 @@ bool Actions::transfer(core::RecipeView const& recipe, bool maxSetsWanted) {
     auto const plan = assign(recipe, pool, sets);
     if (!plan.complete()) return false;
 
-    auto const& grid = gridCollection();
+    auto const& grid = gridCollection(*mgr);
     bool        ok   = true;
     for (std::size_t i = 0; i < recipe.inputs.size(); ++i) {
         int const cell = mapping.cellOfInput[i];
@@ -509,7 +516,7 @@ bool Actions::deleteCursorItem() {
     // In creative, placing the cursor stack onto the creative item list destroys it (vanilla behavior,
     // sent as a server-validated destroy request).
     for (auto e : CREATIVE_LISTS) {
-        auto const& name = collectionName(e);
+        auto const& name = collectionName(*mgr, e);
         if (name.empty() || !mgr->hasContainerController(name)) continue;
         screen->_handlePlaceAll(name, 0);
         if (!cursorStack(*mgr)) {

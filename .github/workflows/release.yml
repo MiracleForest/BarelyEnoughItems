@@ -9,12 +9,22 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  build:
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # One job per supported LeviLamina line; the lip variant has the same name.
+          - variant: "26_60"
+            levilamina: 26.60.5
+            line: "26.60"
+          - variant: "26_51"
+            levilamina: 26.51.7
+            line: "26.51"
+    name: build (LeviLamina ${{ matrix.levilamina }})
     steps:
       - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0 # levibuildscript derives the mod version from the latest tag
 
       - uses: xmake-io/github-action-setup-xmake@v1
 
@@ -22,9 +32,9 @@ jobs:
         with:
           path: |
             ~/AppData/Local/.xmake
-          key: xmake-${{ hashFiles('xmake.lua', 'xmake-requires.lock') }}
+          key: xmake-${{ matrix.variant }}-${{ hashFiles('xmake.lua', 'locks/*.lock') }}
           restore-keys: |
-            xmake-
+            xmake-${{ matrix.variant }}-
 
       - name: Setup LLVM
         uses: ZhongRuoyu/setup-llvm@v0
@@ -33,9 +43,13 @@ jobs:
 
       - run: git config --global core.longpaths true
 
+      - name: Pin the packages of this LeviLamina line
+        shell: pwsh
+        run: Copy-Item locks/${{ matrix.variant }}.lock xmake-requires.lock
+
       - run: xmake repo -u
 
-      - run: xmake f -a x64 -m release -p windows -v --target_type=client -y
+      - run: xmake f -a x64 -m release -p windows -v --target_type=client --levilamina=${{ matrix.levilamina }} -y
 
       - run: xmake -v -y
 
@@ -44,18 +58,44 @@ jobs:
           xmake build -y bei-tests
           xmake run bei-tests
 
-      - name: Check version
+      - name: Check versions
         shell: pwsh
         run: |
           $expected = "${{ github.ref_name }}".TrimStart('v')
           $actual = (Get-Content bin/BEI/manifest.json | ConvertFrom-Json).version
           if ($actual -ne $expected) { throw "manifest version $actual does not match tag $expected" }
+          $declared = (Select-String -Path lip.toml -Pattern '^version = "(.+)"$' | Select-Object -First 1).Matches[0].Groups[1].Value
+          if ($declared -ne $expected) { throw "lip.toml version $declared does not match tag $expected" }
 
       - name: Package
         shell: pwsh
         run: |
           Copy-Item COPYING, COPYING.LESSER, README.md -Destination bin/BEI/
-          Compress-Archive -Path bin/BEI -DestinationPath bei-client-windows-x64.zip
+          # lip's mcmod asset wants manifest.json at the root of the ZIP, with '/' separators.
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [System.IO.Compression.ZipFile]::CreateFromDirectory(
+            (Resolve-Path bin/BEI).Path,
+            (Join-Path (Get-Location) "bei-client-win-x64-ll${{ matrix.line }}.zip"),
+            [System.IO.Compression.CompressionLevel]::Optimal,
+            $false
+          )
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: zip-${{ matrix.variant }}
+          path: bei-client-win-x64-ll${{ matrix.line }}.zip
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: zip-*
+          merge-multiple: true
 
       - name: Release notes
         shell: pwsh
@@ -71,5 +111,8 @@ jobs:
 
       - uses: softprops/action-gh-release@v3
         with:
-          files: bei-client-windows-x64.zip
+          files: |
+            bei-client-win-x64-ll26.60.zip
+            bei-client-win-x64-ll26.51.zip
           body_path: RELEASE_NOTES.md
+          prerelease: ${{ contains(github.ref_name, '-') }}

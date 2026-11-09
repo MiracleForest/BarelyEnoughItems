@@ -334,6 +334,32 @@ void post(std::function<void()> fn) {
 
 // --- Hooks -------------------------------------------------------------------------------------
 
+/// Shared body of InputClientUpdateHook, whose signature differs between LeviLamina lines.
+bool afterClientUpdate(ClientInstance& client, bool isInitFinished, bool result) {
+    if (!isInitFinished) return result; // GuiData and friends may not exist yet
+    try {
+        onClientUpdate(client);
+    } catch (std::exception const& e) {
+        log().error("Input update failed: {}", e.what());
+    }
+    return result;
+}
+
+// ClientInstance::update took only isInitFinished until LeviLamina 26.51; 26.60 added
+// allowGameUpdate, which changes the signature the hook has to match.
+#if BEI_LL_VERSION >= 2660
+LL_TYPE_INSTANCE_HOOK(
+    InputClientUpdateHook,
+    ll::memory::HookPriority::Normal,
+    ClientInstance,
+    &ClientInstance::$update,
+    bool,
+    bool isInitFinished,
+    bool allowGameUpdate
+) {
+    return afterClientUpdate(*this, isInitFinished, origin(isInitFinished, allowGameUpdate));
+}
+#else
 LL_TYPE_INSTANCE_HOOK(
     InputClientUpdateHook,
     ll::memory::HookPriority::Normal,
@@ -342,15 +368,9 @@ LL_TYPE_INSTANCE_HOOK(
     bool,
     bool isInitFinished
 ) {
-    auto result = origin(isInitFinished);
-    if (!isInitFinished) return result; // GuiData and friends may not exist yet
-    try {
-        onClientUpdate(*this);
-    } catch (std::exception const& e) {
-        log().error("Input update failed: {}", e.what());
-    }
-    return result;
+    return afterClientUpdate(*this, isInitFinished, origin(isInitFinished));
 }
+#endif
 
 LL_TYPE_INSTANCE_HOOK(
     InputFocusLostHook,

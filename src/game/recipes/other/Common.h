@@ -13,6 +13,7 @@
 
 class Item;
 class ItemDescriptor;
+class ItemInstance;
 class ItemStackBase;
 class Level;
 class Recipe;
@@ -67,6 +68,12 @@ void forEachRecipeWithTag(
 
 /// Every registered item, in registry order. Used for fuel and brewing-reagent discovery.
 void forEachRegisteredItem(Level& level, std::function<void(Item const&)> const& fn);
+
+/// An empty ItemInstance, to be filled in with `reinit`.
+///
+/// The default constructor is only exported on some LeviLamina lines (26.51 exports it for the
+/// client, 26.60 does not), so copy the game's own empty instance instead.
+[[nodiscard]] ItemInstance emptyItemInstance();
 
 /// A fuel and how long it burns in a regular furnace, in ticks.
 struct FuelInfo {

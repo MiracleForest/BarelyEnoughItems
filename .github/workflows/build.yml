@@ -9,10 +9,18 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # One job per supported LeviLamina line; the lip variant has the same name.
+          - variant: "26_60"
+            levilamina: 26.60.5
+          - variant: "26_51"
+            levilamina: 26.51.7
+    name: build (LeviLamina ${{ matrix.levilamina }})
     steps:
       - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0 # levibuildscript derives the mod version from the latest tag
 
       - uses: xmake-io/github-action-setup-xmake@v1
 
@@ -20,9 +28,9 @@ jobs:
         with:
           path: |
             ~/AppData/Local/.xmake
-          key: xmake-${{ hashFiles('xmake.lua', 'xmake-requires.lock') }}
+          key: xmake-${{ matrix.variant }}-${{ hashFiles('xmake.lua', 'locks/*.lock') }}
           restore-keys: |
-            xmake-
+            xmake-${{ matrix.variant }}-
 
       - name: Setup LLVM
         uses: ZhongRuoyu/setup-llvm@v0
@@ -31,9 +39,13 @@ jobs:
 
       - run: git config --global core.longpaths true
 
+      - name: Pin the packages of this LeviLamina line
+        shell: pwsh
+        run: Copy-Item locks/${{ matrix.variant }}.lock xmake-requires.lock
+
       - run: xmake repo -u
 
-      - run: xmake f -a x64 -m release -p windows -v --target_type=client -y
+      - run: xmake f -a x64 -m release -p windows -v --target_type=client --levilamina=${{ matrix.levilamina }} -y
 
       - run: xmake -v -y
 
@@ -44,6 +56,6 @@ jobs:
 
       - uses: actions/upload-artifact@v7
         with:
-          name: ${{ github.event.repository.name }}-${{ github.sha }}-client-windows-x64
+          name: ${{ github.event.repository.name }}-${{ github.sha }}-client-win-x64-ll${{ matrix.variant }}
           path: |
             bin/BEI/

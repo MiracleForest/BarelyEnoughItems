@@ -9,7 +9,9 @@
 $script:RepoRoot     = (Resolve-Path "$PSScriptRoot/../..").Path
 $script:Launcher     = Join-Path $env:USERPROFILE 'Desktop\LeviLauncher.exe'
 $script:LauncherData = Join-Path $env:APPDATA 'levilauncher.exe'
-$script:VersionName  = '1.26.51.01'
+# The LeviLauncher instance to test in. Set BEI_E2E_VERSION to the folder name of another one,
+# e.g. a 1.26.60 instance, to run the scenarios against that line's build of BEI.
+$script:VersionName  = if ($env:BEI_E2E_VERSION) { $env:BEI_E2E_VERSION } else { '1.26.51.01' }
 $script:VersionDir   = Join-Path $script:LauncherData "versions\$script:VersionName"
 $script:ModsDir      = Join-Path $script:VersionDir 'mods'
 $script:GameExe      = Join-Path $script:VersionDir 'Minecraft.Windows.exe'

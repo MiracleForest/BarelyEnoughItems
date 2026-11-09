@@ -1,7 +1,7 @@
 # BEI end-to-end tests
 
 These tests drive the **real game** on this machine:
-- the LeviLauncher instance `1.26.51.01` at `%APPDATA%\levilauncher.exe\versions\1.26.51.01`;
+- the LeviLauncher instance `1.26.51.01` at `%APPDATA%\levilauncher.exe\versions\1.26.51.01`, or the one named by `$env:BEI_E2E_VERSION` - run the scenarios once per LeviLamina line, against that line's build of BEI;
 - **input through [LeviHeadlessInput](https://github.com/LiteLDev/BeDD)** (default: the game stays in the background and never takes your mouse, keyboard or foreground; built in `%USERPROFILE%\Desktop\LeviHeadlessInput\bin\LeviHeadlessInput` or `$env:LEVI_HEADLESS_INPUT_DIR`), or **real input** (`SendInput`) with `-Foreground`;
 - **window screenshots** (`PrintWindow`).
 

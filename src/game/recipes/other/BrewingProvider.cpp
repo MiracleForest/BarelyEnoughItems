@@ -73,7 +73,7 @@ public:
             auto const* container = registry.lookupByName(HashedString{containerName}).get();
             if (!container) continue;
             for (int potionId : potionIds) {
-                ItemInstance source;
+                ItemInstance source = emptyItemInstance();
                 source.reinit(*container, 1, potionId);
                 if (source.isNull()) continue;
                 auto sourceKey = keyOf(source);

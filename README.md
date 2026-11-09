@@ -24,15 +24,22 @@ BEI only runs on your game: it works in single-player and on any server, and the
 
 ## Install
 
-You need Minecraft Bedrock Edition **1.26.51** for Windows (x64) with LeviLamina **26.51.x**, for example installed through [LeviLauncher](https://github.com/LiteLDev/LeviLauncher).
+You need Minecraft Bedrock Edition for Windows (x64) with LeviLamina, for example installed through [LeviLauncher](https://github.com/LiteLDev/LeviLauncher). A BEI release is built against each LeviLamina line it supports, and you pick the one that matches your game:
 
-With [lip](https://github.com/LiteLDev/lip) 0.35.0 or later:
+| Minecraft | LeviLamina | Variant | Download |
+| --- | --- | --- | --- |
+| 1.26.60 | 26.60.x | `26_60`, and the default | `bei-client-win-x64-ll26.60.zip` |
+| 1.26.51 | 26.51.x | `26_51` | `bei-client-win-x64-ll26.51.zip` |
+
+In LeviLauncher, install BEI from the **LeviMC Mods** page; it offers the variants above, and the default is the newest line.
+
+With [lip](https://github.com/LiteLDev/lip) 0.40.0 or later:
 
 ```sh
-lip install github.com/MiracleForest/BarelyEnoughItems#client
+lip install github.com/MiracleForest/BarelyEnoughItems#26_60
 ```
 
-Or download `bei-client-windows-x64.zip` from the [latest release](https://github.com/MiracleForest/BarelyEnoughItems/releases/latest) and extract it so that the `BEI` folder lands in the game's `mods/` folder.
+Or download the ZIP for your line from the [latest release](https://github.com/MiracleForest/BarelyEnoughItems/releases/latest) and extract it into a `BEI` folder inside the game's `mods/` folder, so that `mods/BEI/manifest.json` exists.
 
 ## How to use
 

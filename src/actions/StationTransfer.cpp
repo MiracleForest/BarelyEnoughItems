@@ -14,6 +14,8 @@
 #include "mc/common/Globals.h"
 #include "mc/legacy/ActorUniqueID.h"
 #include "mc/world/containers/ContainerEnumName.h"
+#include "mc/world/containers/ContainerFactory.h"
+#include "mc/world/containers/FullContainerName.h"
 #include "mc/world/containers/SlotData.h"
 #include "mc/world/containers/managers/controllers/ContainerManagerController.h"
 #include "mc/world/item/ItemStack.h"
@@ -36,11 +38,14 @@ namespace {
 FurnaceScreenController*       gFurnace  = nullptr;
 SmithingTableScreenController* gSmithing = nullptr;
 
-std::string const& collectionName(ContainerEnumName name) {
-    // Linear scan: the game's map does not hash like our std::hash (see Actions.cpp).
+/// The UI collection name of `name` among the collections `mgr` has, or "" when it has none.
+///
+/// The game's own ContainerEnumName-to-name map is not callable on every LeviLamina line, so walk
+/// the manager's containers and ask the factory what each of their names stands for.
+std::string const& collectionName(ContainerManagerController& mgr, ContainerEnumName name) {
     static std::string const empty;
-    for (auto const& [key, value] : ContainerCollectionNameMap()) {
-        if (key == name) return value;
+    for (auto const& entry : mgr.mContainers.get()) {
+        if (ContainerFactory::getContainerEnumName(entry.first).mName == name) return entry.first;
     }
     return empty;
 }
@@ -49,10 +54,11 @@ void setFurnace(FurnaceScreenController* ctrl) {
     if (gFurnace == ctrl) return;
     gFurnace = ctrl;
     if (ctrl) {
+        auto* mgr = ctrl->mContainerManagerController.get();
         log().info(
             "Actions: furnace screen active (tag '{}', input '{}')",
             ctrl->mRecipeTag->getString(),
-            collectionName(ctrl->mIngredientEnumName)
+            mgr ? collectionName(*mgr, ctrl->mIngredientEnumName) : std::string{}
         );
     } else {
         log().debug("Actions: furnace screen gone");
@@ -117,11 +123,11 @@ struct Slot {
 
 /// Collections that hold the player's own items.
 std::vector<std::string> inventoryCollections(ContainerManagerController& mgr) {
-    auto const& combined = collectionName(ContainerEnumName::CombinedHotbarAndInventoryContainer);
+    auto const& combined = collectionName(mgr, ContainerEnumName::CombinedHotbarAndInventoryContainer);
     if (!combined.empty() && mgr.hasContainerController(combined)) return {combined};
     std::vector<std::string> names;
     for (auto e : {ContainerEnumName::HotbarContainer, ContainerEnumName::InventoryContainer}) {
-        auto const& n = collectionName(e);
+        auto const& n = collectionName(mgr, e);
         if (!n.empty() && mgr.hasContainerController(n)) names.push_back(n);
     }
     return names;
@@ -221,11 +227,11 @@ std::optional<Target> targetFor(Station station, std::size_t inputs) {
         if (!gFurnace->_isStillValid()) return std::nullopt; // block gone or out of reach
         t.mgr = gFurnace->mContainerManagerController.get();
         if (!t.mgr) return std::nullopt;
-        auto const& input = collectionName(gFurnace->mIngredientEnumName);
+        auto const& input = collectionName(*t.mgr, gFurnace->mIngredientEnumName);
         if (input.empty() || !t.mgr->hasContainerController(input)) return std::nullopt;
         t.inputSlots.assign(inputs, std::string{});
         if (inputs > 0) t.inputSlots[0] = input;
-        auto const& fuel = collectionName(ContainerEnumName::FurnaceFuelContainer);
+        auto const& fuel = collectionName(*t.mgr, ContainerEnumName::FurnaceFuelContainer);
         if (!fuel.empty() && t.mgr->hasContainerController(fuel)) t.fuelSlot = fuel;
         return t;
     }
@@ -241,7 +247,7 @@ std::optional<Target> targetFor(Station station, std::size_t inputs) {
         };
         t.inputSlots.assign(inputs, std::string{});
         for (std::size_t i = 0; i < inputs && i < std::size(order); ++i) {
-            auto const& name = collectionName(order[i]);
+            auto const& name = collectionName(*t.mgr, order[i]);
             if (!name.empty() && t.mgr->hasContainerController(name)) t.inputSlots[i] = name;
         }
         return t;

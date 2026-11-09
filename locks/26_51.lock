@@ -5,7 +5,7 @@
     ["windows|x64"] = {
         ["bedrockdata v26.51.1-client.11#f56260b5"] = {
             repo = {
-                commit = "56f390b260799fe11e1aee0745c2f3777943d40a",
+                commit = "1b333c2f7bcaed7e9641a5fb7daaaebdc68971f0",
                 url = "https://github.com/LiteLDev/xmake-repo.git"
             },
             version = "v26.51.1-client.11"
@@ -98,7 +98,7 @@
         },
         ["levilamina 26.51.7#dc67da7f"] = {
             repo = {
-                commit = "56f390b260799fe11e1aee0745c2f3777943d40a",
+                commit = "1b333c2f7bcaed7e9641a5fb7daaaebdc68971f0",
                 url = "https://github.com/LiteLDev/xmake-repo.git"
             },
             version = "26.51.7"
@@ -127,13 +127,13 @@
             },
             version = "v3.12.0"
         },
-        ["parallel-hashmap v1.3.12#f56260b5"] = {
+        ["parallel-hashmap v2.0.0#f56260b5"] = {
             repo = {
                 branch = "master",
-                commit = "f1ffc37c7fb1c294791d91ff583edb0907744c8c",
-                url = "https://gitlab.com/tboox/xmake-repo.git"
+                commit = "511a3c4536a12318e7c1effa012dc8d7b5637526",
+                url = "https://github.com/xmake-io/xmake-repo.git"
             },
-            version = "v1.3.12"
+            version = "v2.0.0"
         },
         ["pcg_cpp v1.0.0#f56260b5"] = {
             repo = {
@@ -151,7 +151,7 @@
         },
         ["prelink v0.8.7#f56260b5"] = {
             repo = {
-                commit = "56f390b260799fe11e1aee0745c2f3777943d40a",
+                commit = "1b333c2f7bcaed7e9641a5fb7daaaebdc68971f0",
                 url = "https://github.com/LiteLDev/xmake-repo.git"
             },
             version = "v0.8.7"
