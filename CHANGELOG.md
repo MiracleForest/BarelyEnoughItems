@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- The `client` variant. The variants are now the default, which is the newest line, and one per LeviLamina line: `26_60` and `26_51`. Install `github.com/MiracleForest/BarelyEnoughItems` or `github.com/MiracleForest/BarelyEnoughItems#26_60`. An install made as `#client` is not updated to this release; uninstall it and install one of the variants above. Your settings in `mods/BEI/config/` are kept.
+
 ## [0.2.0-beta.1] - 2026-11-09
 
 First beta of 0.2.0. Please report anything that behaves differently from 0.1.3.

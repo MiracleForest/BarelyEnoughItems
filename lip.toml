@@ -12,8 +12,9 @@ logo = "https://raw.githubusercontent.com/MiracleForest/BarelyEnoughItems/main/d
 # named after it: 26_51 for LeviLamina 26.51.x (Minecraft 1.26.51), 26_60 for 26.60.x
 # (Minecraft 1.26.60). Variant names may only hold [a-z0-9_], hence 26_60 and not 26.60.
 #
-# The default variant and the variant "client", which is the one LeviLauncher reaches for first
-# and the one earlier releases of BEI were installed as, are the newest supported line.
+# The default variant is the newest supported line. BEI only runs on the client, so every variant
+# has a client entry only. LeviLamina releases are still tooth.json packages, whose client build
+# is the variant "client", hence the dependency on LeviLamina#client.
 
 # --- 26.60 (Minecraft 1.26.60) ------------------------------------------------------------------
 
@@ -26,18 +27,6 @@ preserve = ["mods/BEI/config/"]
 "github.com/LiteLDev/LeviLamina#client" = "26.60.*"
 
 [[variants."".assets]]
-type = "mcmod"
-urls = ["https://{{id}}/releases/download/v{{version}}/bei-client-win-x64-ll26.60.zip"]
-
-[[variants.client]]
-side = "client"
-platform = "win-x64"
-preserve = ["mods/BEI/config/"]
-
-[variants.client.deps]
-"github.com/LiteLDev/LeviLamina#client" = "26.60.*"
-
-[[variants.client.assets]]
 type = "mcmod"
 urls = ["https://{{id}}/releases/download/v{{version}}/bei-client-win-x64-ll26.60.zip"]
 
