@@ -32,9 +32,12 @@ struct Rect {
     friend bool operator==(Rect const&, Rect const&) = default;
 };
 
+/// Horizontal placement of a grid inside its area when the cells don't fill the whole width.
+enum class GridAlign { Center, Left, Right };
+
 /// A grid of square cells fitted into an area.
 struct GridLayout {
-    Rect  bounds;    ///< Area actually used by the cells (centered horizontally inside the input area).
+    Rect  bounds;    ///< Area actually used by the cells (placed horizontally per GridAlign inside the input area).
     float cell = 18; ///< Cell size.
     int   cols = 0;
     int   rows = 0;
@@ -54,9 +57,16 @@ struct GridLayout {
     [[nodiscard]] int hitTest(float px, float py, int count) const noexcept;
 };
 
-/// Fit as many `cell`-sized cells as possible into `area`, centered horizontally (and vertically
-/// if `centerVertically`), otherwise top aligned. `maxCols` <= 0 means no column limit.
-[[nodiscard]] GridLayout fitGrid(Rect const& area, float cell, int maxCols = 0, bool centerVertically = false);
+/// Fit as many `cell`-sized cells as possible into `area`, placed horizontally per `align`
+/// (centered by default), centered vertically if `centerVertically`, otherwise top aligned.
+/// `maxCols` <= 0 means no column limit.
+[[nodiscard]] GridLayout fitGrid(
+    Rect const& area,
+    float       cell,
+    int         maxCols          = 0,
+    bool        centerVertically = false,
+    GridAlign   align            = GridAlign::Center
+);
 
 /// Page arithmetic for a list of `itemCount` items shown `perPage` at a time.
 /// `itemCount == 0` still has one (empty) page.

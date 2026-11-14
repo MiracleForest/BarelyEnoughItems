@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- With fewer columns set, the item list now stays at the right edge of the screen and the bookmarks at the left edge, instead of shrinking toward the middle ([#28](https://github.com/MiracleForest/BarelyEnoughItems/issues/28)).
+
 ## [0.1.0] - 2026-11-14
 
 First release.

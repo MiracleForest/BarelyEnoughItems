@@ -89,7 +89,7 @@ int GridLayout::hitTest(float px, float py, int count) const noexcept {
     return i >= 0 && i < count ? i : -1;
 }
 
-GridLayout fitGrid(Rect const& area, float cell, int maxCols, bool centerVertically) {
+GridLayout fitGrid(Rect const& area, float cell, int maxCols, bool centerVertically, GridAlign align) {
     GridLayout g;
     g.cell = cell;
     if (!(cell > 0) || !std::isfinite(cell)) return g;
@@ -104,7 +104,10 @@ GridLayout fitGrid(Rect const& area, float cell, int maxCols, bool centerVertica
     if (g.cols == 0 || g.rows == 0) g.cols = g.rows = 0;
     float w  = static_cast<float>(g.cols) * cell;
     float h  = static_cast<float>(g.rows) * cell;
-    float x  = a.x + std::max(0.f, (a.w - w) / 2);
+    float slack = std::max(0.f, a.w - w);
+    float x     = a.x;
+    if (align == GridAlign::Center) x += slack / 2;
+    else if (align == GridAlign::Right) x += slack;
     float y  = centerVertically ? a.y + std::max(0.f, (a.h - h) / 2) : a.y;
     g.bounds = {x, y, w, h};
     return g;

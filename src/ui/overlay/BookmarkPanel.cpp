@@ -34,7 +34,9 @@ void BookmarkPanel::render(Painter& p, FrameInfo const& frame) {
     }
     auto layout     = overlayLayout(frame);
     int  maxColumns = app::Controller::get().config().maxColumns;
-    if (!layout.bookmarkPanelUsable || !gGrid.layout(layout.bookmarkPageControls, layout.bookmarkGrid, maxColumns)) {
+    // Hug the left screen edge (mirror of the item panel).
+    if (!layout.bookmarkPanelUsable
+        || !gGrid.layout(layout.bookmarkPageControls, layout.bookmarkGrid, maxColumns, core::GridAlign::Left)) {
         return;
     }
     gGrid.logLayoutIfChanged("Bookmark panel", frame.screen);

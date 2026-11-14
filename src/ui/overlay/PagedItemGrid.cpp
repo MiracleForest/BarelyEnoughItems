@@ -46,8 +46,13 @@ bool activateItem(core::ItemKey const& item, MouseButton button) {
     }
 }
 
-bool PagedItemGrid::layout(core::Rect const& header, core::Rect const& gridArea, int maxColumns) {
-    mGrid  = core::fitGrid(gridArea, CELL, maxColumns);
+bool PagedItemGrid::layout(
+    core::Rect const& header,
+    core::Rect const& gridArea,
+    int               maxColumns,
+    core::GridAlign   align
+) {
+    mGrid  = core::fitGrid(gridArea, CELL, maxColumns, false, align);
     mShown = mGrid.cols >= MIN_COLS && mGrid.rows >= 1 && !header.empty();
     if (!mShown) {
         mBounds = {};
