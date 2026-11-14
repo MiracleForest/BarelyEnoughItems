@@ -285,7 +285,7 @@ std::vector<core::ItemKey> fuelsOf(core::RecipeView const& recipe) {
     return fuels;
 }
 
-/// Put one stack of fuel into the empty fuel slot (JEI moves fuel along with the input).
+/// Put one stack of fuel into the empty fuel slot (fuel moves along with the input).
 void addFuel(
     ContainerManagerController& mgr,
     Target const&               t,

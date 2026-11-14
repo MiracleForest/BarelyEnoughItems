@@ -12,7 +12,7 @@ body:
     id: solution
     attributes:
       label: Proposed solution
-      description: How should it work? If JEI on Java Edition does this, describe how it behaves there.
+      description: How should it work? Describe the expected behaviour step by step.
     validations:
       required: true
   - type: textarea

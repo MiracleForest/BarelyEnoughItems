@@ -288,7 +288,7 @@ void drawFlame(Painter& p, float x, float y) {
 }
 
 void drawShapeless(Painter& p, float x, float y) {
-    // Two crossing arrows (right on top, left at the bottom), like JEI's shapeless icon.
+    // Two crossing arrows (right on top, left at the bottom): the shapeless icon.
     p.fillRect({x, y + 2, 6, 1}, ICON_COLOR);
     p.fillRect({x + 6, y + 1, 1, 3}, ICON_COLOR);
     p.fillRect({x + 7, y + 2, 1, 1}, ICON_COLOR);

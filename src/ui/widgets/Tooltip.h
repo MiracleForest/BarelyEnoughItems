@@ -23,7 +23,7 @@ void drawTooltip(Painter& painter, std::vector<TooltipLine> const& lines, float 
 
 /// Item tooltip: localized name (white), extra lines (e.g. "Recipe: 3/9"), the id in grey
 /// (Config::showItemIds),
-/// the hotkey hint ("R: Recipes  U: Uses"), and the namespace as a mod name in blue (like JEI;
+/// the hotkey hint ("R: Recipes  U: Uses"), and the namespace as a mod name in blue (
 /// Config::showModName).
 /// Long lines wrap; the tooltip flushes the painter first so it is always on top.
 void drawItemTooltip(

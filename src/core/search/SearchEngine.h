@@ -11,7 +11,7 @@
 
 namespace bei::core {
 
-/// Filters the item list by a JEI-style query.
+/// Filters the item list by a search query.
 ///
 /// Query syntax:
 /// - `foo bar`    all terms must match (AND); a term matches display name, English name or id path

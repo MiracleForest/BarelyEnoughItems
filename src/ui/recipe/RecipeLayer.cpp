@@ -537,7 +537,7 @@ bool RecipeLayer::onMouseButton(MouseButton button, bool down, float x, float y)
             if (!plus.rect.contains(x, y)) continue;
             auto& index = game::RecipeManager::get().index();
             if (plus.recipe < index.size() && actions::Actions::get().transfer(index.recipe(plus.recipe), shiftHeld())) {
-                controller.closeRecipes(); // back to the crafting screen, like JEI
+                controller.closeRecipes(); // back to the crafting screen
             }
             mChecks.clear();
             return true;

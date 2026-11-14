@@ -1,4 +1,4 @@
-// Composting category (JEI's "Composting"): every item the composter accepts, with the chance
+// Composting category: every item the composter accepts, with the chance
 // that it raises the compost level by one layer. The chance comes from the game itself
 // (ComposterBlock::getFillChance, which covers the built-in table and data-driven
 // "compostable" item components).
@@ -53,7 +53,7 @@ public:
             int const chance = ComposterBlock::getFillChance(stack);
             if (chance > 0) found.push_back({std::move(key), std::min(chance, 100)});
         });
-        // Highest chance first (JEI orders the same way), then by id.
+        // Highest chance first, then by id.
         std::sort(found.begin(), found.end(), [](Compostable const& a, Compostable const& b) {
             return a.chance != b.chance ? a.chance > b.chance : a.key < b.key;
         });

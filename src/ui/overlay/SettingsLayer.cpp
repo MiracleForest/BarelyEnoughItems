@@ -1,4 +1,4 @@
-// In-game settings (JEI's wrench button): a button right of the item panel search bar and a
+// In-game settings (the wrench button): a button right of the item panel search bar and a
 // compact popup with a toggle for every user-facing core::Config field.
 //
 // - Left click on the button opens/closes the popup; Ctrl+click toggles cheat mode directly.

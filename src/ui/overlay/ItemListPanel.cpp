@@ -107,7 +107,7 @@ void ItemListPanel::render(Painter& p, FrameInfo const& frame) {
         auto const& grid      = gState.grid.grid().bounds;
         gState.searchBox.rect = {grid.x, layout.searchBar.y, grid.w, layout.searchBar.h};
     }
-    // Settings button (JEI's wrench) at the right end of the bar, a square as tall as the bar.
+    // Settings button (a wrench) at the right end of the bar, a square as tall as the bar.
     auto& bar           = gState.searchBox.rect;
     float buttonSize    = bar.h;
     gState.configButton = {};

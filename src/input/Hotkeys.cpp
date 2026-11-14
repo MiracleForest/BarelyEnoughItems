@@ -67,7 +67,7 @@ constexpr std::array<HotkeyDef, 6> HOTKEYS{
      {"toggle_bookmark", 'A', Action::ToggleBookmark},
      {"toggle_overlay", 'O', Action::ToggleOverlay},
      {"back", VK_BACKSPACE, Action::Back},
-     {"focus_search", 'F', Action::FocusSearch, true}, // JEI: Ctrl+F
+     {"focus_search", 'F', Action::FocusSearch, true}, // Ctrl+F
     }
 };
 

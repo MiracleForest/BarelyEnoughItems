@@ -24,7 +24,7 @@ constexpr float MARGIN    = 4;  // minimum distance to the screen edge (outside 
 
 constexpr std::uint32_t ID_RGB   = 0x808080;
 constexpr std::uint32_t HINT_RGB = 0xAAAAAA;
-constexpr std::uint32_t MOD_RGB  = 0x5555FF; // JEI shows the mod name in blue (italic in Java)
+constexpr std::uint32_t MOD_RGB  = 0x5555FF; // the mod name is shown in blue
 
 Color lerp(Color a, Color b, float t) {
     return {a.r + (b.r - a.r) * t, a.g + (b.g - a.g) * t, a.b + (b.b - a.b) * t, a.a + (b.a - a.a) * t};
@@ -175,7 +175,7 @@ void drawItemTooltip(
     };
     lines.insert(lines.end(), extra.begin(), extra.end());
     auto const& cfg = app::Controller::get().config();
-    if (cfg.showItemIds) lines.push_back({item.toString(), ID_RGB}); // JEI: advanced tooltips
+    if (cfg.showItemIds) lines.push_back({item.toString(), ID_RGB}); // advanced tooltips
     lines.push_back({app::tr("bei.tooltip.hint", "R: Recipes   U: Uses   A: Bookmark"), HINT_RGB});
     if (cfg.showModName) {
         auto ns = std::string{item.nameSpace()};

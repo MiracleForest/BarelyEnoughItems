@@ -21,7 +21,7 @@ struct Color {
     }
 };
 
-/// JEI-like palette shared by all panels so the UI looks consistent.
+/// Palette shared by all panels so the UI looks consistent.
 namespace palette {
 inline constexpr Color PANEL_BG      = Color::rgb(0xC6C6C6);
 inline constexpr Color PANEL_BORDER  = Color::rgb(0x373737);

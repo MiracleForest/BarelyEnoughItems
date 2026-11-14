@@ -7,7 +7,7 @@
 
 namespace bei::ui {
 
-/// Full-screen recipe viewer (the "recipes GUI" in JEI).
+/// Full-screen recipe viewer.
 ///
 /// Contract:
 /// - show(focus) opens the screen (or re-targets it if already open) on the given focus;

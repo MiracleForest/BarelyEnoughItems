@@ -16,7 +16,7 @@ class Painter;
 
 /// Internal building block shared by the item list and bookmark panels: a page header
 /// ("<  page/total  >") on top of a grid of item cells, with hover highlight, paging by
-/// buttons and wheel, and the JEI click behaviour (see activateItem).
+/// buttons and wheel, and the item click behaviour (see activateItem).
 ///
 /// The owner supplies the items through `keyAt` (index -> key, nullptr when out of range)
 /// and the item count through setItemCount() every frame; nothing here allocates per frame.
@@ -75,7 +75,7 @@ private:
     core::Rect       mLoggedExtra;
 };
 
-/// JEI click behaviour on an item in a BEI panel: in cheat mode (Config::cheatMode and
+/// Click behaviour on an item in a BEI panel: in cheat mode (Config::cheatMode and
 /// Actions::canCheat()) a left click gives a full stack (shift: one item); otherwise left click
 /// shows recipes. Right click shows uses. Returns true if the button is one BEI handles.
 bool activateItem(core::ItemKey const& item, MouseButton button);

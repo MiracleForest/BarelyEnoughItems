@@ -30,7 +30,7 @@ struct RecipeFocus {
     friend bool operator==(RecipeFocus const&, RecipeFocus const&) = default;
 };
 
-/// Back-navigation stack for the recipe screen (JEI's Backspace behaviour).
+/// Back-navigation stack for the recipe screen (Backspace goes back).
 ///
 /// The top of the stack is what the recipe screen currently shows. `back()` drops it and
 /// returns the entry below, which the screen should show next; when nothing is left the

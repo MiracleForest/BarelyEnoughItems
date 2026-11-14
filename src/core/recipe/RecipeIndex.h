@@ -13,7 +13,7 @@
 namespace bei::core {
 
 enum class LookupMode {
-    Recipes, ///< Recipes that produce the item ("R" in JEI).
+    Recipes, ///< Recipes that produce the item (hotkey "R").
     Uses,    ///< Recipes that consume the item, plus categories whose workstation it is ("U").
 };
 
@@ -29,7 +29,7 @@ struct CategoryGroup {
 /// - Recipes(item): recipes with an output alternative matching item.
 /// - Uses(item): recipes with an input alternative matching item (catalysts excluded),
 ///   plus *all* recipes of categories that list item as a workstation. Those workstation
-///   categories are shown first (like JEI), then the remaining categories; a category
+///   categories are shown first, then the remaining categories; a category
 ///   never appears twice and a recipe never appears twice within a group.
 /// - Matching uses ItemKey::matches (aux wildcard on either side).
 /// - Groups are ordered by CategoryInfo::order, then category id; categories referenced by

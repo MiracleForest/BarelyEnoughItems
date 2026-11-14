@@ -252,7 +252,7 @@ bool TextBox::onMouseButton(bool right, bool down, float x, float y) {
         return false;
     }
     if (right) {
-        // JEI: right click clears the field.
+        // Right click clears the field.
         setFocused(true);
         if (!mText.empty()) setText({}, true);
         return true;

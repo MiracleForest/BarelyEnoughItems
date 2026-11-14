@@ -46,7 +46,7 @@ public:
     TextBox& operator=(TextBox const& other);
 
     void render(Painter& painter, double time) const;
-    /// Click inside focuses (right click clears, like JEI); click outside unfocuses.
+    /// Click inside focuses (right click clears); click outside unfocuses.
     /// Returns true if the event was consumed.
     bool onMouseButton(bool right, bool down, float x, float y);
     bool onKey(int vk, bool down);

@@ -45,7 +45,7 @@ struct TransferCheck {
 ///   Everything else is not possible (TransferBlock says why).
 /// - Items already in the target slots count as available; they are moved back to the inventory
 ///   first.
-/// - transfer(maxSets=true) moves as many sets as available (shift-click in JEI); for furnaces
+/// - transfer(maxSets=true) moves as many sets as available (shift-click); for furnaces
 ///   that is up to one stack of the input.
 /// - give() only works when canCheat() (operator / creative); it uses the /give command.
 ///

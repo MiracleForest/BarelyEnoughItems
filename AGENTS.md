@@ -1,6 +1,6 @@
 # AGENTS.md
 
-BEI (Barely Enough Items) is a JEI-style item list and recipe viewer for Minecraft Bedrock,
+BEI (Barely Enough Items) is an item list and recipe viewer for Minecraft Bedrock,
 built as a **client** mod on LeviLamina, with xmake and clang-cl on Windows x64.
 
 One source tree supports several LeviLamina lines, one build each. A line is a lip variant of the

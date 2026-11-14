@@ -28,7 +28,7 @@ inline constexpr std::size_t MAX_ALTERNATIVES = 512;
 /// Converts recipe result instances to output ingredients (null instances are skipped).
 [[nodiscard]] std::vector<core::IngredientView> toOutputs(std::vector<ItemInstance> const& results);
 
-/// Marks `view` shapeless and picks a JEI-style grid for its inputs: 1x1 for one input, 2x2 for up to
+/// Marks `view` shapeless and picks a compact grid for its inputs: 1x1 for one input, 2x2 for up to
 /// four, 3x3 otherwise. Inputs are padded with empty slots to width*height. Returns false when the
 /// inputs do not fit a 3x3 grid (the view is left unchanged).
 bool layoutShapeless(core::RecipeView& view);

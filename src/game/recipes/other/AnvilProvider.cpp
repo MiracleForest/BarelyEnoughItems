@@ -1,4 +1,4 @@
-// Anvil repair category (JEI's "Anvil" category, repair part).
+// Anvil repair category (repair part of the "Anvil" category).
 //
 // The game has no anvil recipe data, so we ask it which items repair which:
 // - data-driven items (Item::isComponentBased) list their repair materials in the "repairable"

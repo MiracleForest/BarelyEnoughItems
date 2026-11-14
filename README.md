@@ -5,7 +5,7 @@
 [![Release](https://img.shields.io/github/v/release/MiracleForest/BarelyEnoughItems)](https://github.com/MiracleForest/BarelyEnoughItems/releases)
 [![License](https://img.shields.io/github/license/MiracleForest/BarelyEnoughItems)](COPYING.LESSER)
 
-Never alt-tab to a wiki again. BEI puts every item in the game next to your inventory, and shows how to make it and what it is good for — [Just Enough Items (JEI)](https://github.com/mezz/JustEnoughItems) from Java Edition, now on Minecraft Bedrock for Windows.
+Never alt-tab to a wiki again. BEI puts every item in the game next to your inventory, and shows how to make it and what it is good for, right on Minecraft Bedrock for Windows.
 
 ![The item list next to the survival inventory, with bookmarks on the left](docs/showcase/inventory.webp)
 
@@ -103,4 +103,4 @@ Building it yourself or contributing? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-[LGPL-3.0-or-later](COPYING.LESSER) © MiracleForest. BEI is not affiliated with Mojang Studios, Microsoft or the JEI project.
+[LGPL-3.0-or-later](COPYING.LESSER) © MiracleForest. BEI is not affiliated with Mojang Studios or Microsoft.

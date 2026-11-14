@@ -11,7 +11,7 @@
 
 namespace bei::core {
 
-/// Ordered, de-duplicated list of bookmarked items. Newest bookmarks go to the front (JEI default).
+/// Ordered, de-duplicated list of bookmarked items. Newest bookmarks go to the front (default).
 class Bookmarks {
 public:
     /// Default upper bound on the number of bookmarks (adds past it are refused).

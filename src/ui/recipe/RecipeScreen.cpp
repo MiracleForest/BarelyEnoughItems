@@ -214,7 +214,7 @@ LL_TYPE_INSTANCE_HOOK(RecipeSceneBehindHook, ll::memory::HookPriority::Normal, U
     return origin();
 }
 
-// JEI does not close when the player takes damage; neither do we.
+// The recipe screen does not close when the player takes damage.
 LL_TYPE_INSTANCE_HOOK(RecipeSceneHurtHook, ll::memory::HookPriority::Normal, UIScene, &UIScene::$closeOnPlayerHurt, bool) {
     if (owns(this)) return false;
     return origin();

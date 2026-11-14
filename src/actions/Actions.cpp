@@ -325,7 +325,7 @@ void Actions::install() {
     CraftingTerminateHook::hook();
     ContainerScreenDtorHook::hook();
     station::install();
-    // JEI: in cheat mode a click on a panel item while holding a stack deletes the stack (creative only;
+    // In cheat mode a click on a panel item while holding a stack deletes the stack (creative only;
     // in survival the click does nothing, so nothing is given or opened while an item is held).
     ui::ItemListPanel::cheatClickHook = [](ui::MouseButton button, bool down, float, float) {
         auto& actions = Actions::get();

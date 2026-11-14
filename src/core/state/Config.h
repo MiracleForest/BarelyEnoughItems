@@ -31,7 +31,7 @@ struct Config {
     int  cheatGiveStackSize  = 64;    ///< Count given by a cheat-mode left click. Clamped to [1, MAX_STACK_SIZE].
     bool showItemIds         = false; ///< Advanced tooltips: show "minecraft:stone" (and aux) in item tooltips.
     bool showModName         = true;  ///< Show the item's namespace (e.g. "Minecraft") as the last tooltip line.
-    bool bookmarksAddToFront = true;  ///< New bookmarks go to the front (JEI default) instead of the back.
+    bool bookmarksAddToFront = true;  ///< New bookmarks go to the front (default) instead of the back.
     bool rememberPage        = false; ///< Restore lastPage when the overlay opens.
     int  lastPage            = 0;     ///< Item list page last shown (>= 0).
     /// Submitted searches, newest first: distinct, non-blank, each at most MAX_SEARCH_LENGTH bytes,
