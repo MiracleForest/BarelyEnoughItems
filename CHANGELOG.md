@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-15
+
 ### Changed
 
 - With fewer columns set, the item list now stays at the right edge of the screen and the bookmarks at the left edge, instead of shrinking toward the middle ([#28](https://github.com/MiracleForest/BarelyEnoughItems/issues/28)).
@@ -60,5 +62,6 @@ First release.
 - Support for **Minecraft 1.26.60** (LeviLamina 26.60.x) and **Minecraft 1.26.51** (LeviLamina 26.51.x), with one download per line: `bei-client-win-x64-ll26.60.zip` and `bei-client-win-x64-ll26.51.zip`.
 - A `lip.toml` package (needs [lip](https://github.com/LiteLDev/lip) 0.40.0 or later) with the variants `26_60` and `26_51`; the default variant is the newest line.
 
-[Unreleased]: https://github.com/MiracleForest/BarelyEnoughItems/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/MiracleForest/BarelyEnoughItems/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/MiracleForest/BarelyEnoughItems/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/MiracleForest/BarelyEnoughItems/releases/tag/v0.1.0
