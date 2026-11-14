@@ -32,8 +32,15 @@ public:
 
     /// Place the page header in `header` and fit the cells into `gridArea` (both from
     /// core::computeOverlayLayout). Returns false (and hides the grid) if fewer than MIN_COLS
-    /// columns or no row fit.
-    bool layout(core::Rect const& header, core::Rect const& gridArea, int maxColumns);
+    /// columns or no row fit. `align` places a grid narrower than `gridArea` (Config::maxColumns):
+    /// panels hug their outer screen edge so a reduced column count frees the space next to the
+    /// container instead of leaving gaps on both sides.
+    bool layout(
+        core::Rect const& header,
+        core::Rect const& gridArea,
+        int               maxColumns,
+        core::GridAlign   align = core::GridAlign::Center
+    );
     /// Update the number of items; keeps the current page when possible.
     void setItemCount(std::size_t count);
     void resetPage() noexcept { mPages.page = 0; }

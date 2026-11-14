@@ -91,6 +91,23 @@ TEST(Layout, FitGridMaxCols) {
     EXPECT_EQ(fitGrid({0, 0, 180, 36}, 18, 100).cols, 10);
 }
 
+TEST(Layout, FitGridAlign) {
+    // 4 of 10 possible columns: 108 units of slack.
+    auto l = fitGrid({10, 0, 180, 36}, 18, 4, false, GridAlign::Left);
+    EXPECT_FLOAT_EQ(l.bounds.x, 10);
+    auto r = fitGrid({10, 0, 180, 36}, 18, 4, false, GridAlign::Right);
+    EXPECT_FLOAT_EQ(r.bounds.x, 118);
+    EXPECT_FLOAT_EQ(r.bounds.right(), 190);
+    auto c = fitGrid({10, 0, 180, 36}, 18, 4, false, GridAlign::Center);
+    EXPECT_FLOAT_EQ(c.bounds.x, 64);
+    // Fractional slack without a column limit goes to the opposite side.
+    EXPECT_FLOAT_EQ(fitGrid({0, 0, 100, 18}, 18, 0, false, GridAlign::Right).bounds.right(), 100);
+    EXPECT_FLOAT_EQ(fitGrid({0, 0, 100, 18}, 18, 0, false, GridAlign::Left).bounds.x, 0);
+    // The hit test follows the shifted bounds.
+    EXPECT_EQ(r.hitTest(119, 1), 0);
+    EXPECT_EQ(r.hitTest(117, 1), -1);
+}
+
 TEST(Layout, FitGridExactAndFloatError) {
     EXPECT_EQ(fitGrid({0, 0, 90, 18}, 18).cols, 5);
     EXPECT_EQ(fitGrid({0, 0, 89.99999f, 18}, 18).cols, 5);

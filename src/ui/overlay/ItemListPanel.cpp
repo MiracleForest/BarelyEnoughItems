@@ -94,7 +94,12 @@ void ItemListPanel::render(Painter& p, FrameInfo const& frame) {
     auto layout = overlayLayout(frame);
     gState.searchShown =
         layout.itemPanelUsable && !layout.searchBar.empty()
-        && gState.grid.layout(layout.itemPageControls, layout.itemGrid, app::Controller::get().config().maxColumns);
+        && gState.grid.layout(
+            layout.itemPageControls,
+            layout.itemGrid,
+            app::Controller::get().config().maxColumns,
+            core::GridAlign::Right // hug the right screen edge
+        );
     if (!gState.searchShown) {
         gState.searchBox.setFocused(false);
         gState.configButton = {};

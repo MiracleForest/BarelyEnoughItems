@@ -212,9 +212,9 @@ private:
         float w = std::ceil(textW + 2 * PAD);
         float h = PAD + ROW_H + 2 + static_cast<float>(TOGGLES.size() + 1) * ROW_H + PAD;
 
-        // Right-aligned with the item panel area, which (unlike the button) does not move when the
-        // column count changes, so -/+ stay under the cursor; with the bar under the container,
-        // with the button.
+        // Right-aligned with the item panel area, which does not move when the column count changes
+        // (the grid hugs its right edge), so -/+ stay under the cursor; with the bar under the
+        // container, with the button.
         auto const& screen = frame.screen;
         float       right  = layout.searchBarCentered || !layout.itemPanelUsable ? mButton.rect.right()
                                                                                  : layout.itemGrid.right();
