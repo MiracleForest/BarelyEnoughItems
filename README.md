@@ -103,4 +103,4 @@ Building it yourself or contributing? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-[LGPL-3.0-or-later](COPYING.LESSER) © LeviMC. BEI is not affiliated with Mojang Studios, Microsoft or the JEI project.
+[LGPL-3.0-or-later](COPYING.LESSER) © MiracleForest. BEI is not affiliated with Mojang Studios, Microsoft or the JEI project.
