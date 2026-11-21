@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-21
+
+### Fixed
+
+- The client entries for LeviLamina 26.60 (the default variant and `26_60`) depend on `github.com/LiteLDev/LeviLamina` 26.60.8 or later instead of `github.com/LiteLDev/LeviLamina#client`. LeviLamina 26.60.8 is a lip.toml package with no `client` variant, so the old dependency could only resolve to LeviLamina 26.60.7 or earlier: a client install could not use the newest LeviLamina 26.60, and failed on a client that already had LeviLamina 26.60.8 installed.
+
 ## [0.1.1] - 2026-11-15
 
 ### Changed
@@ -62,6 +68,7 @@ First release.
 - Support for **Minecraft 1.26.60** (LeviLamina 26.60.x) and **Minecraft 1.26.51** (LeviLamina 26.51.x), with one download per line: `bei-client-win-x64-ll26.60.zip` and `bei-client-win-x64-ll26.51.zip`.
 - A `lip.toml` package (needs [lip](https://github.com/LiteLDev/lip) 0.40.0 or later) with the variants `26_60` and `26_51`; the default variant is the newest line.
 
-[Unreleased]: https://github.com/MiracleForest/BarelyEnoughItems/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/MiracleForest/BarelyEnoughItems/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/MiracleForest/BarelyEnoughItems/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/MiracleForest/BarelyEnoughItems/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/MiracleForest/BarelyEnoughItems/releases/tag/v0.1.0
