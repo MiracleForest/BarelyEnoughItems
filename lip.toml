@@ -1,6 +1,6 @@
 format = 4
 id = "github.com/MiracleForest/BarelyEnoughItems"
-version = "0.1.1"
+version = "0.1.2"
 
 [info]
 name = "BarelyEnoughItems"
@@ -13,8 +13,14 @@ logo = "https://raw.githubusercontent.com/MiracleForest/BarelyEnoughItems/main/d
 # (Minecraft 1.26.60). Variant names may only hold [a-z0-9_], hence 26_60 and not 26.60.
 #
 # The default variant is the newest supported line. BEI only runs on the client, so every variant
-# has a client entry only. LeviLamina releases are still tooth.json packages, whose client build
-# is the variant "client", hence the dependency on LeviLamina#client.
+# has a client entry only.
+#
+# LeviLamina 26.60.8 and later are lip.toml packages: their default variant holds both builds and
+# they have no "client" variant. Releases up to 26.60.7, and every 26.51 release, are tooth.json
+# packages whose client build is the variant "client" and whose default variant is the server
+# build. So the 26.60 client entries depend on plain LeviLamina from 26.60.8 on (an older default
+# variant would install the server build on a client), and the 26.51 client entries depend on
+# LeviLamina#client.
 
 # --- 26.60 (Minecraft 1.26.60) ------------------------------------------------------------------
 
@@ -24,7 +30,7 @@ platform = "win-x64"
 preserve = ["mods/BEI/config/"]
 
 [variants."".deps]
-"github.com/LiteLDev/LeviLamina#client" = "26.60.*"
+"github.com/LiteLDev/LeviLamina" = ">=26.60.8 <26.61.0"
 
 [[variants."".assets]]
 type = "mcmod"
@@ -36,7 +42,7 @@ platform = "win-x64"
 preserve = ["mods/BEI/config/"]
 
 [variants."26_60".deps]
-"github.com/LiteLDev/LeviLamina#client" = "26.60.*"
+"github.com/LiteLDev/LeviLamina" = ">=26.60.8 <26.61.0"
 
 [[variants."26_60".assets]]
 type = "mcmod"
